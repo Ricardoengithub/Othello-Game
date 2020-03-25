@@ -1,5 +1,7 @@
 /**
  * Definición de un tablero para el juego de Othello
+ * @author Ricardo Ruiz
+ * @author Eduardo Lechuga
  * @author Rodrigo Colín
  */
 class Tablero {
@@ -331,12 +333,12 @@ class Tablero {
         if(movimientoPermitido(i,j) && !estaOcupado(i,j)){
           if(turno){
             stroke(0,0,0);
-            strokeWeight(3);
+            strokeWeight(6);
             noFill();
             circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2));            
           }else{
             stroke(255,255,255);
-            strokeWeight(5);
+            strokeWeight(6);
             noFill();
             circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2)); 
           

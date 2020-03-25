@@ -1,5 +1,7 @@
 /**
  * Proyecto base para el juego de Othello/Reversi
+ * @author Ricardo Ruiz
+ * @author Eduardo Lechuga
  * @author Rodrigo Colín
  */
 
