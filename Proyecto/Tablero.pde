@@ -4,7 +4,10 @@
  * @author Eduardo Lechuga
  * @author Rodrigo Colín
  */
-class Tablero {
+ 
+import java.util.ArrayList;
+ 
+class Tablero implements Cloneable {
   /**
    * Cantidad de casillas en horizontal y vertical del tablero
    */
@@ -29,7 +32,7 @@ class Tablero {
    * false = turno del jugador 2 (Blancas)
    */
   boolean turno;
-  
+
   /**
    * Contador de la cantidad de turnos en el tablero
    */
@@ -40,6 +43,20 @@ class Tablero {
    * @param dimension Cantidad de casillas del tablero, comúnmente ocho.
    * @param tamCasilla Tamaño en pixeles de cada casilla
    */
+   
+   
+  Tablero(int[][] mundo){
+    this.mundo = mundo;
+  }
+ 
+  
+    public Tablero creaNuevoTablero(int x , int y, int[][] mundo) {
+      Tablero nuevo= new Tablero(x,y); 
+      return  nuevo;
+    }
+    
+
+  
   Tablero(int dimension, int tamCasilla) {
     this.dimension = dimension;
     this.tamCasilla = tamCasilla;
@@ -52,6 +69,7 @@ class Tablero {
     mundo[(dimension/2)-1][(dimension/2)-1] = 2;
     mundo[dimension/2][dimension/2] = 2;
   }
+  
 
   /**
    * Constructor por default de un tablero con las siguientes propiedades:
@@ -59,6 +77,21 @@ class Tablero {
    */
   Tablero() {
     this(8, 60);
+  }
+
+
+
+  
+  public void setMundo(int[][] mundo){
+    this.mundo = mundo;
+  }
+  
+   public int[][] getMundo(){
+    return this.mundo;
+  }
+  
+  Tablero getTablero(){
+    return this;
   }
 
   /**
@@ -70,7 +103,7 @@ class Tablero {
     int grosor = 2; // Ancho de línea (en pixeles)
     color colorJugador1 = color(0); // Color de ficha para el primer jugador
     color colorJugador2 = color(255); // Color de ficha para el segundo jugador
-    
+
     // Doble iteración para recorrer cada casilla del tablero
     for (int i = 0; i < dimension; i++)
       for (int j = 0; j < dimension; j++) {
@@ -99,7 +132,7 @@ class Tablero {
   void setFicha(int posX, int posY, boolean turno) {
     mundo[posX][posY] = turno ? 1 : 2;
   }
-  
+
   /**
    * Coloca o establece una ficha en una casilla específica del tablero segun el turno del tablero.
    * @param posX Coordenada horizontal de la casilla para establecer la ficha
@@ -127,28 +160,28 @@ class Tablero {
   boolean estaOcupado(int posX, int posY) {
     return mundo[posX][posY] != 0;
   }
-  
+
   /**
    * @param posX Coordenada horizontal de la casilla a verificar
    * @param posY Coordenada vertical de la casilla a verificar
    * @return true si es una movida valida hacia arriba, false en otro caso
    */
-  boolean verificaArriba(int posX, int posY){
-    try{
+  boolean verificaArriba(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX][posY-1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX][posY-1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2;
-           if(mundo[posX][posY-i] == 0)
+          if (mundo[posX][posY-i] == 0)
             return false; 
-          if(mundo[posX][posY-i] == turnoActual)
-            return true; 
+          if (mundo[posX][posY-i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Arriba");
+    }
+    catch(Exception e) {
       return false;
     }
   }
@@ -158,22 +191,22 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * @return true si es una movida valida hacia abajo, false en otro caso
    */
-  boolean verificaAbajo(int posX, int posY){
-    try{
+  boolean verificaAbajo(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX][posY+1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX][posY+1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX][posY+i] == 0)
+          if (mundo[posX][posY+i] == 0)
             return false;           
-          if(mundo[posX][posY+i] == turnoActual)
-            return true; 
+          if (mundo[posX][posY+i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Abajo");
+    }
+    catch(Exception e) {
       return false;
     }
   }
@@ -183,62 +216,62 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * @return true si es una movida valida hacia la derecha, false en otro caso
    */
-  boolean verificaDerecha(int posX, int posY){
-    try{
+  boolean verificaDerecha(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX+1][posY] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX+1][posY] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX+i][posY] == 0)
+          if (mundo[posX+i][posY] == 0)
             return false; 
-          if(mundo[posX+i][posY] == turnoActual)
-            return true; 
+          if (mundo[posX+i][posY] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Derecha");
+    }
+    catch(Exception e) {
       return false;
     }
   }
-  
-    boolean verificaDerechaArriba(int posX, int posY){
-    try{
+
+  boolean verificaDerechaArriba(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX+1][posY-1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX+1][posY-1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX+i][posY-i] == 0)
+          if (mundo[posX+i][posY-i] == 0)
             return false; 
-          if(mundo[posX+i][posY-i] == turnoActual)
-            return true; 
+          if (mundo[posX+i][posY-i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Derecha");
+    }
+    catch(Exception e) {
       return false;
     }
   }
-  
-    boolean verificaDerechaAbajo(int posX, int posY){
-    try{
+
+  boolean verificaDerechaAbajo(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX+1][posY+1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX+1][posY+1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX+i][posY+i] == 0)
+          if (mundo[posX+i][posY+i] == 0)
             return false; 
-          if(mundo[posX+i][posY+i] == turnoActual)
-            return true; 
+          if (mundo[posX+i][posY+i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Derecha");
+    }
+    catch(Exception e) {
       return false;
     }
   }
@@ -248,63 +281,63 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * @return true si es una movida valida hacia la izquierda, false en otro caso
    */
-  boolean verificaIzquierda(int posX, int posY){
-    try{
+  boolean verificaIzquierda(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX-1][posY] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX-1][posY] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX-i][posY] == 0)
+          if (mundo[posX-i][posY] == 0)
             return false;           
-          if(mundo[posX-i][posY] == turnoActual)
-            return true; 
+          if (mundo[posX-i][posY] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Izquierda");
+    }
+    catch(Exception e) {
       return false;
     }
   }
-  
-  
-    boolean verificaIzquierdaArriba(int posX, int posY){
-    try{
+
+
+  boolean verificaIzquierdaArriba(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX-1][posY-1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX-1][posY-1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-          if(mundo[posX-i][posY-i] == 0)
+          if (mundo[posX-i][posY-i] == 0)
             return false;
-          if(mundo[posX-i][posY-i] == turnoActual)
-            return true; 
+          if (mundo[posX-i][posY-i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Izquierda");
+    }
+    catch(Exception e) {
       return false;
     }
   }
-  
-    boolean verificaIzquierdaAbajo(int posX, int posY){
-    try{
+
+  boolean verificaIzquierdaAbajo(int posX, int posY) {
+    try {
       int turnoSiguiente = turno ? 2 : 1; 
-      if(mundo[posX-1][posY+1] == turnoSiguiente ){
-        for(int i = 2; i < 8; i++){
+      if (mundo[posX-1][posY+1] == turnoSiguiente ) {
+        for (int i = 2; i < 8; i++) {
           int turnoActual = turno ? 1 : 2; 
-        if(mundo[posX-i][posY+i] == 0)
+          if (mundo[posX-i][posY+i] == 0)
             return false;       
-          if(mundo[posX-i][posY+i] == turnoActual)
-            return true; 
+          if (mundo[posX-i][posY+i] == turnoActual)
+            return true;
         }
-        return false;      
+        return false;
       }
       return false;
-    }catch(Exception e){
-      System.out.println("Izquierda");
+    }
+    catch(Exception e) {
       return false;
     }
   }
@@ -315,35 +348,33 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * @return true si es un movimiento permitido, false en otro caso
    */
-  boolean movimientoPermitido(int posX, int posY){
+  boolean movimientoPermitido(int posX, int posY) {
     boolean permitido = (verificaArriba(posX, posY) || verificaAbajo(posX, posY) 
-                        || verificaIzquierda(posX, posY) || verificaDerecha(posX, posY)
-                        || verificaIzquierdaArriba(posX, posY) || verificaIzquierdaAbajo(posX, posY)
-                        || verificaDerechaArriba(posX, posY) || verificaDerechaAbajo(posX, posY)
-                        );
+      || verificaIzquierda(posX, posY) || verificaDerecha(posX, posY)
+      || verificaIzquierdaArriba(posX, posY) || verificaIzquierdaAbajo(posX, posY)
+      || verificaDerechaArriba(posX, posY) || verificaDerechaAbajo(posX, posY)
+      );
     return permitido;
   }
 
   /**
    * Metodo que indica las casillas donde hay movimientos posibles
    */
-  void movimientosPosibles(){
-    for(int i = 0; i<dimension; i++){
-      for(int j = 0; j<dimension; j++){
-        if(movimientoPermitido(i,j) && !estaOcupado(i,j)){
-          if(turno){
-            stroke(0,0,0);
+  void movimientosPosibles() {
+    for (int i = 0; i<dimension; i++) {
+      for (int j = 0; j<dimension; j++) {
+        if (movimientoPermitido(i, j) && !estaOcupado(i, j)) {
+          if (turno) {
+            stroke(0, 0, 0);
             strokeWeight(6);
             noFill();
-            circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2));            
-          }else{
-            stroke(255,255,255);
+            circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2));
+          } else {
+            stroke(255, 255, 255);
             strokeWeight(6);
             noFill();
-            circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2)); 
-          
+            circle(i*tamCasilla+(tamCasilla/2), j*tamCasilla+(tamCasilla/2), (tamCasilla/2));
           }
-
         }
       }
     }
@@ -354,20 +385,20 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * Metodo que actualiza las fichas superiores segun las reglas de Othello
    */
-  void actualizaArriba(int posX, int posY){
+  void actualizaArriba(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaArriba(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX][posY-i] == aliadas){
+    try {
+      if (verificaArriba(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX][posY-i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX][posY-i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
@@ -377,20 +408,20 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * Metodo que actualiza las fichas a la izquierda segun las reglas de Othello
    */
-  void actualizaAbajo(int posX, int posY){
+  void actualizaAbajo(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaAbajo(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX][posY+i] == aliadas){
+    try {
+      if (verificaAbajo(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX][posY+i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX][posY+i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
@@ -400,20 +431,20 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * Metodo que actualiza las fichas a la derecha segun las reglas de Othello
    */
-  void actualizaDerecha(int posX, int posY){
+  void actualizaDerecha(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaDerecha(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX+i][posY] == aliadas){
+    try {
+      if (verificaDerecha(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX+i][posY] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX+i][posY] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
@@ -423,107 +454,107 @@ class Tablero {
    * @param posY Coordenada vertical de la casilla a verificar
    * Metodo que actualiza las fichas a la izquierda segun las reglas de Othello
    */
-  void actualizaIzquierda(int posX, int posY){
+  void actualizaIzquierda(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaIzquierda(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX-i][posY] == aliadas){
+    try {
+      if (verificaIzquierda(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX-i][posY] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX-i][posY] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
-  
-    void actualizaIzquierdaArriba(int posX, int posY){
+
+  void actualizaIzquierdaArriba(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaIzquierdaArriba(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX-i][posY-i] == aliadas){
+    try {
+      if (verificaIzquierdaArriba(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX-i][posY-i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX-i][posY-i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
-    void actualizaIzquierdaAbajo(int posX, int posY){
+  void actualizaIzquierdaAbajo(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaIzquierdaAbajo(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX-i][posY+i] == aliadas){
+    try {
+      if (verificaIzquierdaAbajo(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX-i][posY+i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX-i][posY+i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
-  
-  
-    void actualizaDerechaArriba(int posX, int posY){
+
+
+  void actualizaDerechaArriba(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaDerechaArriba(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX+i][posY-i] == aliadas){
+    try {
+      if (verificaDerechaArriba(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX+i][posY-i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX+i][posY-i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
-    void actualizaDerechaAbajo(int posX, int posY){
+  void actualizaDerechaAbajo(int posX, int posY) {
     int aliadas = turno ? 1 : 2;
-    try{
-      if(verificaDerechaAbajo(posX, posY)){
-        for(int i = 1; i < dimension; i++){
-          if(mundo[posX+i][posY+i] == aliadas){
+    try {
+      if (verificaDerechaAbajo(posX, posY)) {
+        for (int i = 1; i < dimension; i++) {
+          if (mundo[posX+i][posY+i] == aliadas) {
             break;
-          }else{
+          } else {
             mundo[posX+i][posY+i] = aliadas;
-
           }
         }
       }
-    }catch(Exception e){
+    }
+    catch(Exception e) {
       System.out.println("asd");
     }
   }
 
-  void actualiza(int posX, int posY){
-      actualizaArriba(posX, posY);
-      actualizaAbajo(posX, posY);
-      actualizaIzquierda(posX, posY);
-      actualizaDerecha(posX,posY);
-      actualizaDerechaArriba(posX, posY);
-      actualizaDerechaAbajo(posX, posY);
-      actualizaIzquierdaArriba(posX, posY);
-      actualizaIzquierdaAbajo(posX, posY);
+  void actualiza(int posX, int posY) {
+    actualizaArriba(posX, posY);
+    actualizaAbajo(posX, posY);
+    actualizaIzquierda(posX, posY);
+    actualizaDerecha(posX, posY);
+    actualizaDerechaArriba(posX, posY);
+    actualizaDerechaAbajo(posX, posY);
+    actualizaIzquierdaArriba(posX, posY);
+    actualizaIzquierdaAbajo(posX, posY);
   }
 
-  
+
 
   /**
    * Cuenta la cantidad de fichas de un jugador
@@ -533,12 +564,55 @@ class Tablero {
   PVector cantidadFichas() {
     PVector contador = new PVector();
     for (int i = 0; i < dimension; i++)
-      for (int j = 0; j < dimension; j++){
-        if(mundo[i][j] == 1)
+      for (int j = 0; j < dimension; j++) {
+        if (mundo[i][j] == 1)
           contador.x += 1;
-        if(mundo[i][j] == 2)
+        if (mundo[i][j] == 2)
           contador.y += 1;
       }
     return contador;
   }
+  
+  /*
+   *Metodo para saber las jugadas disponibles para el usuario
+  */
+  ArrayList<int[]> obtenJugadas(){
+    ArrayList<int[]> jugadas = new ArrayList<int[]>();
+     for (int i = 0; i<dimension; i++) {
+      for (int j = 0; j<dimension; j++) {
+        if (movimientoPermitido(i, j) && !estaOcupado(i, j)) {
+          int[] t = {i, j};
+          jugadas.add(t);
+        }
+      }
+    }
+    return jugadas;
+  }
+  
+  /*
+   * Metodo que indica que el juego se termino
+   */
+  boolean juegoTerminado(){
+    if(this.obtenJugadas().isEmpty()){
+      return true;
+    }
+    return false;
+  }
+  
+  /*
+   * Nos indica el ganador del juego
+   */
+  int ganador(){
+    int negras = (int)this.cantidadFichas().x;
+    int blancas = (int)this.cantidadFichas().y;
+    if(this.juegoTerminado()){
+      if (negras > blancas)
+        return 1; //Si ganan negras
+      if (negras < blancas)
+        return 2; //Si ganan blancas
+      return 0; //Si quedan empatadas
+    }
+    return 3;
+  }
+  
 }
